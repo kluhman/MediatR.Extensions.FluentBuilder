@@ -1,0 +1,40 @@
+trigger:
+  branches:
+    include: [ '*' ]
+stages:
+  - stage: Build
+    variables:
+      - BuildConfiguration: Release
+    jobs:
+      - job:
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: Restore
+            inputs:
+              command: restore
+              projects: '**/*.csproj'
+          - task: DotNetCoreCLI@2
+            displayName: Build
+            inputs:
+              command: build
+              projects: '**/*.csproj'
+              arguments: '-c $(BuildConfiguration)'
+          - task: DotNetCoreCLI@2
+            displayName: Test
+            inputs:
+              command: test
+              nobuild: true
+              publishTestResults: true
+              projects: '**/*.Tests.csproj'
+              arguments: '-c $(BuildConfiguration)'
+          - task: DotNetCoreCLI@2
+            displayName: Package
+            inputs: 
+              command: 'pack'
+              includesymbols: true
+              configuration: $(BuildConfiguration)
+              outputDir: '$(Build.ArtifactStagingDirectory)'
+          - publish: '$(Build.ArtifactStagingDirectory)'
+            artifact: build
+            displayName: Publish Artifact
+          
