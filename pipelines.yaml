@@ -4,7 +4,7 @@ trigger:
 stages:
   - stage: Build
     variables:
-      - BuildConfiguration: Release
+      BuildConfiguration: Release
     jobs:
       - job:
         steps:
