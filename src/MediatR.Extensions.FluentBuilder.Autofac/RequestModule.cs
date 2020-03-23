@@ -8,7 +8,7 @@ namespace MediatR.Extensions.FluentBuilder
     public abstract class RequestModule<TRequest, TResponse> : Module, IRequestModule<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        protected override void Load(ContainerBuilder builder)
+        protected sealed override void Load(ContainerBuilder builder)
         {
             BuildPipeline(new PipelineBuilder<TRequest, TResponse>(builder));
         }
