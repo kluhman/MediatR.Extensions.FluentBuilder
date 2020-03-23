@@ -1,5 +1,7 @@
 # MediatR.Extensions.FluentBuilder
 
+[![Build Status](https://dev.azure.com/kluhman/MediatR.Extensions.FluentBuilder/_apis/build/status/MediatR.Extensions.FluentBuilder?branchName=master)](https://dev.azure.com/kluhman/MediatR.Extensions.FluentBuilder/_build/latest?definitionId=3&branchName=master)
+
 ## Overview
 
 This package provides a set of fluent API's for defining request pipelines and notification listeners using the MediatR library.
