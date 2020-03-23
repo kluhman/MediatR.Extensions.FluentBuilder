@@ -1,6 +1,7 @@
 ﻿using Autofac;
 
 using MediatR.Extensions.FluentBuilder.Builders;
+using MediatR.Extensions.FluentBuilder.Internal;
 
 namespace MediatR.Extensions.FluentBuilder
 {
@@ -9,7 +10,7 @@ namespace MediatR.Extensions.FluentBuilder
     {
         protected override void Load(ContainerBuilder builder)
         {
-            
+            BuildPipeline(new PipelineBuilder<TRequest, TResponse>(builder));
         }
 
         public abstract IExceptionsPipelineBuilder<TRequest, TResponse> BuildPipeline(IPipelineBuilder<TRequest, TResponse> builder);
