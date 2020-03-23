@@ -5,7 +5,7 @@ using MediatR.Pipeline;
 
 namespace MediatR.Extensions.FluentBuilder.Internal
 {
-    public abstract class BasePipelineBehavior<TRequest, TResponse> : 
+    public abstract class BasePipelineBuilder<TRequest, TResponse> : 
         IPipelineBuilder<TRequest, TResponse>,
         IPostProcessorPipelineBuilder<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

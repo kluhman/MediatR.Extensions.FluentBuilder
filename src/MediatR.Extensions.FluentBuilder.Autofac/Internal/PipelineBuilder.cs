@@ -6,7 +6,7 @@ using MediatR.Pipeline;
 
 namespace MediatR.Extensions.FluentBuilder.Internal
 {
-    internal class PipelineBuilder<TRequest, TResponse> : BasePipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    internal class PipelineBuilder<TRequest, TResponse> : BasePipelineBuilder<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ContainerBuilder _builder;
 
