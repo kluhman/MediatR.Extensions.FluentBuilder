@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace MediatR.Extensions.FluentBuilder.Internal
+namespace MediatR.Extensions.FluentBuilder
 {
     public abstract class Module
     {

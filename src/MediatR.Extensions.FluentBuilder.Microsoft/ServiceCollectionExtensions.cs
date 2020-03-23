@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Module = MediatR.Extensions.FluentBuilder.Internal.Module;
+using Module = MediatR.Extensions.FluentBuilder.Internal;
 
 namespace MediatR.Extensions.FluentBuilder
 {
