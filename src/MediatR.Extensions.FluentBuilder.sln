@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.FluentBu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.FluentBuilder.Microsoft.Tests", "MediatR.Extensions.FluentBuilder.Microsoft.Tests\MediatR.Extensions.FluentBuilder.Microsoft.Tests.csproj", "{553B8E56-1CF6-47C1-B250-2E2FFEDBE9A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.FluentBuilder.Autofac.Tests", "MediatR.Extensions.FluentBuilder.Autofac.Tests\MediatR.Extensions.FluentBuilder.Autofac.Tests.csproj", "{1C8D9EAE-7092-4A92-AE4B-C642301772B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,9 +40,14 @@ Global
 		{553B8E56-1CF6-47C1-B250-2E2FFEDBE9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{553B8E56-1CF6-47C1-B250-2E2FFEDBE9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{553B8E56-1CF6-47C1-B250-2E2FFEDBE9A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8D9EAE-7092-4A92-AE4B-C642301772B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8D9EAE-7092-4A92-AE4B-C642301772B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8D9EAE-7092-4A92-AE4B-C642301772B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8D9EAE-7092-4A92-AE4B-C642301772B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3B38BA44-8383-4D7A-A6CB-1C86D00FB03D} = {0820118F-8C72-4096-9943-DF53ADCC81F5}
 		{553B8E56-1CF6-47C1-B250-2E2FFEDBE9A0} = {0820118F-8C72-4096-9943-DF53ADCC81F5}
+		{1C8D9EAE-7092-4A92-AE4B-C642301772B4} = {0820118F-8C72-4096-9943-DF53ADCC81F5}
 	EndGlobalSection
 EndGlobal
