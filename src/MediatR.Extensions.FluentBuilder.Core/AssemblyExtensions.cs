@@ -33,9 +33,8 @@ namespace MediatR.Extensions.FluentBuilder
         
         private static bool ImplementsNotificationModule(Type typeToCheck)
         {
-            return typeToCheck
-                .GetInterfaces()
-                .Contains(typeof(INotification));
+            var genericInterface = typeof(INotificationModule<>);
+            return ImplementsGenericInterface(typeToCheck, genericInterface);
         }
 
         private static bool ImplementsGenericInterface(Type typeToCheck, Type genericInterface)

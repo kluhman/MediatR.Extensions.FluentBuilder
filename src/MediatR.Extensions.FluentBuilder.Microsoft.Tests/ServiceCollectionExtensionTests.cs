@@ -39,5 +39,13 @@ namespace MediatR.Extensions.FluentBuilder.Tests
             
             Assert.NotEmpty(_services);
         }
+        
+        [Fact]
+        public void AddNotificationModules_ShouldLoadModule()
+        {
+            _services.AddNotificationModules(typeof(ServiceCollectionExtensionTests).Assembly);
+
+            Assert.NotEmpty(_services);
+        }
     }
 }

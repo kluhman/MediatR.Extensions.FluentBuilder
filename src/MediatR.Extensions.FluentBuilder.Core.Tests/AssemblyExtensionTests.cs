@@ -15,5 +15,15 @@ namespace MediatR.Extensions.FluentBuilder.Tests
 
             Assert.IsType<TestRequest.Module>(requestModules.Single());
         }
+        
+        [Fact]
+        public void GetNotificationModules_ShouldReturnAllNotificationModulesInAssembly()
+        {
+            var notificationModules = typeof(AssemblyExtensionTests)
+                .Assembly
+                .GetNotificationModulesAs<object>();
+
+            Assert.IsType<TestNotification.Module>(notificationModules.Single());
+        }
     }
 }

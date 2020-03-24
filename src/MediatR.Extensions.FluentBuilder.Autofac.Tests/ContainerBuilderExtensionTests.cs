@@ -20,5 +20,13 @@ namespace MediatR.Extensions.FluentBuilder.Tests
 
             Assert.True(_builder.Build().IsRegistered<IRequestHandler<TestRequest, TestResponse>>());
         }
+        
+        [Fact]
+        public void AddNotificationModules_ShouldLoadModule()
+        {
+            _builder.RegisterNotificationModules(typeof(ContainerBuilderExtensionTests).Assembly);
+
+            Assert.True(_builder.Build().IsRegistered<INotificationHandler<TestNotification>>());
+        }
     }
 }
