@@ -15,5 +15,13 @@ namespace MediatR.Extensions.FluentBuilder
                 builder.RegisterModule(module);
             }
         }
+        
+        public static void RegisterNotificationModules(this ContainerBuilder builder, Assembly assembly)
+        {
+            foreach (var module in assembly.GetNotificationModulesAs<Module>())
+            {
+                builder.RegisterModule(module);
+            }
+        }
     }
 }

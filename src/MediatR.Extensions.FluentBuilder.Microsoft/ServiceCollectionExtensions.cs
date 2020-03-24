@@ -25,5 +25,13 @@ namespace MediatR.Extensions.FluentBuilder
                 services.AddModule(module);
             }
         }
+        
+        public static void AddNotificationModules(this IServiceCollection services, Assembly assembly)
+        {
+            foreach (var module in assembly.GetNotificationModulesAs<Module>())
+            {
+                services.AddModule(module);
+            }
+        }
     }
 }
