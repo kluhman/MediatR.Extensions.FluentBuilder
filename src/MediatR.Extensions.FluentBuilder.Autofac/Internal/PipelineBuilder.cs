@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Autofac.Core;
 
 using MediatR.Extensions.FluentBuilder.Builders;
 using MediatR.Pipeline;
@@ -37,16 +36,6 @@ namespace MediatR.Extensions.FluentBuilder.Internal
         {
             _builder.RegisterType<TProcessor>().As<IRequestPostProcessor<TRequest, TResponse>>();
             return this;
-        }
-
-        protected override bool HasRegisteredExceptionActionProcessor()
-        {
-            return _builder.ComponentRegistryBuilder.IsRegistered(new TypedService(typeof(RequestExceptionActionProcessorBehavior<TRequest, TResponse>)));
-        }
-
-        protected override bool HasRegisteredExceptionHandlerProcessor()
-        {
-            return _builder.ComponentRegistryBuilder.IsRegistered(new TypedService(typeof(RequestExceptionProcessorBehavior<TRequest, TResponse>)));
         }
 
         protected override IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionActionInternal<TException, TAction>()

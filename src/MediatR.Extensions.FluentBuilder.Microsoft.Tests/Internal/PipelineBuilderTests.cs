@@ -71,30 +71,12 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
         }
         
         [Fact]
-        public void AddExceptionHandler_ShouldThrowException_WhenProcessorIsNotRegistered()
+        public void AddExceptionHandler_ShouldRegisterExceptionHandler()
         {
-            var services = new ServiceCollection();
-            var builder = new PipelineBuilder<TestRequest, TestResponse>(services);
-
-            Assert.Throws<ArgumentException>(() => builder.AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>());
-        }
-        
-        [Fact]
-        public void AddExceptionHandler_ShouldNotThrowException_WhenProcessorIsRegistered()
-        {
-            var services = new ServiceCollection();
-            var builder = new PipelineBuilder<TestRequest, TestResponse>(services);
-
-            builder
+            _builder
                 .AddExceptionHandling()
                 .AddHandler<TestRequest.Handler>()
                 .AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
-        }
-        
-        [Fact]
-        public void AddExceptionHandler_ShouldRegisterExceptionHandler()
-        {
-            _builder.AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
             
             _services.Verify(x => 
                 x.Add(It.Is<ServiceDescriptor>(d => d.ServiceType == typeof(IRequestExceptionHandler<TestRequest, TestResponse, Exception>) &&
@@ -111,21 +93,12 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
         }
         
         [Fact]
-        public void AddExceptionAction_ShouldNotThrowException_WhenProcessorIsRegistered()
+        public void AddExceptionAction_ShouldRegisterExceptionAction()
         {
-            var services = new ServiceCollection();
-            var builder = new PipelineBuilder<TestRequest, TestResponse>(services);
-
-            builder
+            _builder
                 .AddExceptionActions()
                 .AddHandler<TestRequest.Handler>()
                 .AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>();
-        }
-
-        [Fact]
-        public void AddExceptionAction_ShouldRegisterExceptionAction()
-        {
-            _builder.AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>();
             
             _services.Verify(x => 
                 x.Add(It.Is<ServiceDescriptor>(d => d.ServiceType == typeof(IRequestExceptionAction<TestRequest, Exception>) &&

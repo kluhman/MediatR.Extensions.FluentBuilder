@@ -13,40 +13,39 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
         [Fact]
         public void AddExceptionHandler_ShouldThrowException_WhenProcessorHasNotBeenRegistered()
         {
-            var builder = new TestPipelineBuilder(false);
+            var builder = new TestPipelineBuilder();
             Assert.Throws<ArgumentException>(() => builder.AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>());
         }
         
         [Fact]
         public void AddExceptionHandler_ShouldNotThrowException_WhenProcessorHasBeenRegistered()
         {
-            var builder = new TestPipelineBuilder(true);
-            builder.AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
+            var builder = new TestPipelineBuilder();
+            builder
+                .AddExceptionHandling()
+                .AddHandler<TestRequest.Handler>()
+                .AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
         }
         
         [Fact]
         public void AddExceptionAction_ShouldThrowException_WhenProcessorHasNotBeenRegistered()
         {
-            var builder = new TestPipelineBuilder(false);
+            var builder = new TestPipelineBuilder();
             Assert.Throws<ArgumentException>(() => builder.AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>());
         }
         
         [Fact]
         public void AddExceptionAction_ShouldNotThrowException_WhenProcessorHasBeenRegistered()
         {
-            var builder = new TestPipelineBuilder(true);
-            builder.AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>();
+            var builder = new TestPipelineBuilder();
+            builder
+                .AddExceptionActions()
+                .AddHandler<TestRequest.Handler>()
+                .AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>();
         }
         
         private sealed class TestPipelineBuilder : BasePipelineBuilder<TestRequest, TestResponse>
         {
-            private readonly bool _areExceptionProcessorsRegistered;
-
-            public TestPipelineBuilder(bool areExceptionProcessorsRegistered)
-            {
-                _areExceptionProcessorsRegistered = areExceptionProcessorsRegistered;
-            }
-
             public override IBehaviorPipelineBuilder<TestRequest, TestResponse> AddBehavior<TBehavior>()
             {
                 return this;
@@ -65,16 +64,6 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
             public override IPostProcessorPipelineBuilder<TestRequest, TestResponse> AddPostProcessor<TProcessor>()
             {
                 return this;
-            }
-
-            protected override bool HasRegisteredExceptionActionProcessor()
-            {
-                return _areExceptionProcessorsRegistered;
-            }
-
-            protected override bool HasRegisteredExceptionHandlerProcessor()
-            {
-                return _areExceptionProcessorsRegistered;
             }
 
             protected override IExceptionsPipelineBuilder<TestRequest, TestResponse> AddExceptionActionInternal<TException, TAction>()

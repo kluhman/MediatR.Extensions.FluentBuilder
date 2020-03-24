@@ -41,16 +41,6 @@ namespace MediatR.Extensions.FluentBuilder.Internal
             return this;
         }
 
-        protected override bool HasRegisteredExceptionActionProcessor()
-        {
-            return _services.Any(x => x.ImplementationType == typeof(RequestExceptionActionProcessorBehavior<TRequest, TResponse>));
-        }
-
-        protected override bool HasRegisteredExceptionHandlerProcessor()
-        {
-            return _services.Any(x => x.ImplementationType == typeof(RequestExceptionProcessorBehavior<TRequest, TResponse>));
-        }
-
         protected override IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionActionInternal<TException, TAction>()
         {
             _services.AddTransient<IRequestExceptionAction<TRequest, TException>, TAction>();
