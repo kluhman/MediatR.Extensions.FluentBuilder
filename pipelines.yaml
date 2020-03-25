@@ -41,9 +41,10 @@ stages:
   - stage: Nightly
     dependsOn: Build
     jobs:
-      - job:
+      - deployment:
         steps:
           - task: NuGetCommand@2
+            displayName: Push to NuGet Feed
             inputs:
               command: 'push'
               packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
