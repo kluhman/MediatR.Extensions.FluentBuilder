@@ -5,6 +5,7 @@
         <RootNamespace>MediatR.Extensions.FluentBuilder</RootNamespace>
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
+        <Description>Provides an opinionated framework for explicitly defining MediatR Request Pipelines using the Microsoft Service Collection DI system.</Description>
     </PropertyGroup>
 
     <ItemGroup>

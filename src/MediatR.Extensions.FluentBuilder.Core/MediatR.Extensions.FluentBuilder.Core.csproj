@@ -5,6 +5,7 @@
         <RootNamespace>MediatR.Extensions.FluentBuilder</RootNamespace>
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
+        <Description>Provides core classes and interfaces for explicitly defining MediatR Request Pipelines.</Description>
     </PropertyGroup>
 
     <ItemGroup>
