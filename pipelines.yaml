@@ -35,9 +35,10 @@ stages:
               nobuild: true
               configuration: $(BuildConfiguration)
               outputDir: '$(Build.ArtifactStagingDirectory)'
-          - publish: '$(Build.ArtifactStagingDirectory)'
-            artifact: build
-            displayName: Publish Artifact
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
   - stage: Nightly
     dependsOn: Build
     jobs:
