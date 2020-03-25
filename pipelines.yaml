@@ -38,4 +38,15 @@ stages:
           - publish: '$(Build.ArtifactStagingDirectory)'
             artifact: build
             displayName: Publish Artifact
-          
+  - stage: Nightly
+    dependsOn: Build
+    jobs:
+      - job:
+        steps:
+          - task: NuGetCommand@2
+            inputs:
+              command: 'push'
+              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+              nuGetFeedType: 'internal'
+              publishVstsFeed: 'mediatr-fluentbuilder-nightly'
+              allowPackageConflicts: true
