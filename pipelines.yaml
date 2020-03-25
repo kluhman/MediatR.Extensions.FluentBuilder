@@ -54,5 +54,5 @@ stages:
                     command: 'push'
                     packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
                     nuGetFeedType: 'internal'
-                    publishVstsFeed: 'mediatr-fluentbuilder-nightly'
+                    publishVstsFeed: '6ac051dd-1e9e-4b11-b1e5-4f8aac0f9e27/e7f9c02b-eef7-4070-9ffc-a8a93efdd9f0'
                     allowPackageConflicts: true
