@@ -52,7 +52,7 @@ stages:
                   displayName: Push to NuGet Feed
                   inputs:
                     command: 'push'
-                    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+                    packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
                     nuGetFeedType: 'internal'
                     publishVstsFeed: 'mediatr-fluentbuilder-nightly'
                     allowPackageConflicts: true
