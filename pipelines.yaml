@@ -42,12 +42,15 @@ stages:
     dependsOn: Build
     jobs:
       - deployment:
-        steps:
-          - task: NuGetCommand@2
-            displayName: Push to NuGet Feed
-            inputs:
-              command: 'push'
-              packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-              nuGetFeedType: 'internal'
-              publishVstsFeed: 'mediatr-fluentbuilder-nightly'
-              allowPackageConflicts: true
+        strategy: 
+          runOnce:
+            deploy:
+              steps:
+                - task: NuGetCommand@2
+                  displayName: Push to NuGet Feed
+                  inputs:
+                    command: 'push'
+                    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+                    nuGetFeedType: 'internal'
+                    publishVstsFeed: 'mediatr-fluentbuilder-nightly'
+                    allowPackageConflicts: true
