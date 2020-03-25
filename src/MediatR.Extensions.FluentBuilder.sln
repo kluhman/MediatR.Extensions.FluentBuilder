@@ -14,6 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.FluentBu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.Extensions.FluentBuilder.Autofac.Tests", "MediatR.Extensions.FluentBuilder.Autofac.Tests\MediatR.Extensions.FluentBuilder.Autofac.Tests.csproj", "{1C8D9EAE-7092-4A92-AE4B-C642301772B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{9BA10EEB-C896-445E-8216-80BFB7EE5EE6}"
+ProjectSection(SolutionItems) = preProject
+	Directory.Build.props = Directory.Build.props
+	version.json = version.json
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
