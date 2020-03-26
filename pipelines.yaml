@@ -61,7 +61,7 @@ stages:
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/v'))
     jobs:
       - deployment:
-        environment: NuGet.org
+        environment: 'NuGet.org'
         strategy: 
           runOnce:
             deploy:
