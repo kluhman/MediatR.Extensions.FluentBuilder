@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Autofac;
+using Autofac.Core;
 
 using Xunit;
 
@@ -15,6 +16,16 @@ namespace MediatR.Extensions.FluentBuilder.Tests
         public ContainerBuilderExtensionTests()
         {
             _builder = new ContainerBuilder();
+        }
+
+        [Fact]
+        public void RegisterMediatR_ShouldRegisterRequiredDependencies()
+        {
+            _builder.RegisterMediatR();
+
+            var container = _builder.Build();
+            Assert.True(container.ComponentRegistry.IsRegistered(new TypedService(typeof(IMediator))));
+            Assert.True(container.ComponentRegistry.IsRegistered(new TypedService(typeof(ServiceFactory))));
         }
 
         [Fact]

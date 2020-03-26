@@ -37,6 +37,15 @@ namespace MediatR.Extensions.FluentBuilder.Tests
         }
 
         [Fact]
+        public void AddMediatR_ShouldRegisterRequiredDependencies()
+        {
+            _services.AddMediatR();
+
+            Assert.Single(_services, x => x.ServiceType == typeof(IMediator));
+            Assert.Single(_services, x => x.ServiceType == typeof(ServiceFactory));
+        }
+
+        [Fact]
         public void AddRequestModules_ShouldLoadModule()
         {
             _services.AddRequestModules(typeof(ServiceCollectionExtensionTests).Assembly);
