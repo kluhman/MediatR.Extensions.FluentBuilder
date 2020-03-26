@@ -60,5 +60,13 @@ namespace MediatR.Extensions.FluentBuilder.Tests
 
             Assert.NotEmpty(_services);
         }
+
+        [Fact]
+        public void AddModules_ShouldLoadModules()
+        {
+            _services.AddModules();
+            
+            Assert.NotEmpty(_services);
+        }
     }
 }
