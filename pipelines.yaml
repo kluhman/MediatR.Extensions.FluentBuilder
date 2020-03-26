@@ -58,7 +58,7 @@ stages:
                     allowPackageConflicts: true
   - stage: Public
     dependsOn: Build
-    conditions: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/v'))
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/v'))
     jobs:
       - deployment:
         environment: NuGet.org
