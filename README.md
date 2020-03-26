@@ -1,6 +1,7 @@
 # MediatR.Extensions.FluentBuilder
 
 [![Build Status](https://dev.azure.com/kluhman/MediatR.Extensions.FluentBuilder/_apis/build/status/MediatR.Extensions.FluentBuilder?branchName=master)](https://dev.azure.com/kluhman/MediatR.Extensions.FluentBuilder/_build/latest?definitionId=3&branchName=master)
+![Nuget](https://img.shields.io/nuget/v/MediatR.Extensions.FluentBuilder.Core)
 
 ## Overview
 
