@@ -1,70 +1,75 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using MediatR.Extensions.FluentBuilder.Builders;
 using MediatR.Pipeline;
 
 namespace MediatR.Extensions.FluentBuilder.Internal
 {
-    public abstract class BasePipelineBuilder<TRequest, TResponse> : 
+    public abstract class BasePipelineBuilder<TRequest, TResponse> :
         IPipelineBuilder<TRequest, TResponse>,
         IPostProcessorPipelineBuilder<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        private bool _areExceptionActionsRegistered;
-        private bool _areExceptionHandlingRegistered;
-        
-        public abstract IBehaviorPipelineBuilder<TRequest, TResponse> AddBehavior<TBehavior>()
-            where TBehavior : class, IPipelineBehavior<TRequest, TResponse>;
+        private bool _registeredRequiredProcessors;
+        protected abstract void RegisterInternal<TInterface, TImplementation>() where TInterface : class where TImplementation : class, TInterface;
 
-        public abstract IPostProcessorPipelineBuilder<TRequest, TResponse> AddHandler<THandler>()
-            where THandler : class, IRequestHandler<TRequest, TResponse>;
-
-        public abstract IPipelineBuilder<TRequest, TResponse> AddPreProcessor<TProcessor>()
-            where TProcessor : class, IRequestPreProcessor<TRequest>;
-
-        public IBehaviorPipelineBuilder<TRequest, TResponse> AddExceptionHandling()
+        public IPipelineBuilder<TRequest, TResponse> AddPreProcessor<TProcessor>() where TProcessor : class, IRequestPreProcessor<TRequest>
         {
-            _areExceptionHandlingRegistered = true;
-            return AddBehavior<RequestExceptionProcessorBehavior<TRequest, TResponse>>();
+            RegisterRequiredProcessors();
+            RegisterInternal<IRequestPreProcessor<TRequest>, TProcessor>();
+            return this;
         }
-        
-        public IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionHandler<TException, THandler>()
-            where TException : Exception where THandler : class, IRequestExceptionHandler<TRequest, TResponse, TException>
+
+        public IBehaviorPipelineBuilder<TRequest, TResponse> AddBehavior<TBehavior>() where TBehavior : class, IPipelineBehavior<TRequest, TResponse>
         {
-            if (!_areExceptionHandlingRegistered)
+            RegisterRequiredProcessors();
+            RegisterInternal<IPipelineBehavior<TRequest, TResponse>, TBehavior>();
+            return this;
+        }
+
+        public IPostProcessorPipelineBuilder<TRequest, TResponse> AddHandler<THandler>() where THandler : class, IRequestHandler<TRequest, TResponse>
+        {
+            RegisterRequiredProcessors();
+            RegisterInternal<IRequestHandler<TRequest, TResponse>, THandler>();
+            return this;
+        }
+
+        public IPostProcessorPipelineBuilder<TRequest, TResponse> AddPostProcessor<TProcessor>() where TProcessor : class, IRequestPostProcessor<TRequest, TResponse>
+        {
+            RegisterRequiredProcessors();
+            RegisterInternal<IRequestPostProcessor<TRequest, TResponse>, TProcessor>();
+            return this;
+        }
+
+        public IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionHandler<TException, THandler>() where TException : Exception where THandler : class, IRequestExceptionHandler<TRequest, TResponse, TException>
+        {
+            RegisterRequiredProcessors();
+            RegisterInternal<IRequestExceptionHandler<TRequest, TResponse, TException>, THandler>();
+            return this;
+        }
+
+        public IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionAction<TException, TAction>() where TException : Exception where TAction : class, IRequestExceptionAction<TRequest, TException>
+        {
+            RegisterRequiredProcessors();
+            RegisterInternal<IRequestExceptionAction<TRequest, TException>, TAction>();
+            return this;
+        }
+
+        private void RegisterRequiredProcessors()
+        {
+            if (_registeredRequiredProcessors)
             {
-                var message = $"Cannot register exception handler before calling {nameof(AddExceptionHandling)}";
-                throw new ArgumentException(message);
+                return;
             }
-            
-            return AddExceptionHandlerInternal<TException, THandler>();
-        }
 
-        public IBehaviorPipelineBuilder<TRequest, TResponse> AddExceptionActions()
-        {
-            _areExceptionActionsRegistered = true;
-            return AddBehavior<RequestExceptionActionProcessorBehavior<TRequest, TResponse>>();
+            RegisterInternal<IPipelineBehavior<TRequest, TResponse>, RequestPreProcessorBehavior<TRequest, TResponse>>();
+            RegisterInternal<IPipelineBehavior<TRequest, TResponse>, RequestPostProcessorBehavior<TRequest, TResponse>>();
+            RegisterInternal<IPipelineBehavior<TRequest, TResponse>, RequestExceptionActionProcessorBehavior<TRequest, TResponse>>();
+            RegisterInternal<IPipelineBehavior<TRequest, TResponse>, RequestExceptionProcessorBehavior<TRequest, TResponse>>();
+
+            _registeredRequiredProcessors = true;
         }
-        
-        public IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionAction<TException, TAction>()
-            where TException : Exception where TAction : class, IRequestExceptionAction<TRequest, TException>
-        {
-            if (!_areExceptionActionsRegistered)
-            {
-                var message = $"Cannot register exception action before calling {nameof(AddExceptionActions)}";
-                throw new ArgumentException(message);
-            }
-            
-            return AddExceptionActionInternal<TException, TAction>();
-        }
-        
-        public abstract IPostProcessorPipelineBuilder<TRequest, TResponse> AddPostProcessor<TProcessor>()
-            where TProcessor : class, IRequestPostProcessor<TRequest, TResponse>;
-        
-        protected abstract IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionActionInternal<TException, TAction>()
-            where TException : Exception where TAction : class, IRequestExceptionAction<TRequest, TException>;
-        
-        protected abstract IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionHandlerInternal<TException, THandler>()
-            where TException : Exception where THandler : class, IRequestExceptionHandler<TRequest, TResponse, TException>;
     }
 }

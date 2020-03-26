@@ -1,7 +1,8 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-using MediatR.Extensions.FluentBuilder.Builders;
-using MediatR.Pipeline;
+using Autofac;
 
 namespace MediatR.Extensions.FluentBuilder.Internal
 {
@@ -13,41 +14,10 @@ namespace MediatR.Extensions.FluentBuilder.Internal
         {
             _builder = builder;
         }
-        
-        public override IBehaviorPipelineBuilder<TRequest, TResponse> AddBehavior<TBehavior>()
-        {
-            _builder.RegisterType<TBehavior>().As<IPipelineBehavior<TRequest, TResponse>>();
-            return this;
-        }
 
-        public override IPostProcessorPipelineBuilder<TRequest, TResponse> AddHandler<THandler>()
+        protected override void RegisterInternal<TInterface, TImplementation>()
         {
-            _builder.RegisterType<THandler>().As<IRequestHandler<TRequest, TResponse>>();
-            return this;
-        }
-
-        public override IPipelineBuilder<TRequest, TResponse> AddPreProcessor<TProcessor>()
-        {
-            _builder.RegisterType<TProcessor>().As<IRequestPreProcessor<TRequest>>();
-            return this;
-        }
-
-        public override IPostProcessorPipelineBuilder<TRequest, TResponse> AddPostProcessor<TProcessor>()
-        {
-            _builder.RegisterType<TProcessor>().As<IRequestPostProcessor<TRequest, TResponse>>();
-            return this;
-        }
-
-        protected override IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionActionInternal<TException, TAction>()
-        {
-            _builder.RegisterType<TAction>().As<IRequestExceptionAction<TRequest, TException>>();
-            return this;
-        }
-
-        protected override IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionHandlerInternal<TException, THandler>()
-        {
-            _builder.RegisterType<THandler>().As<IRequestExceptionHandler<TRequest, TResponse, TException>>();
-            return this;
+            _builder.RegisterType<TImplementation>().As<TInterface>().InstancePerRequest();
         }
     }
 }

@@ -1,12 +1,15 @@
-﻿namespace MediatR.Extensions.FluentBuilder.Builders
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MediatR.Extensions.FluentBuilder.Builders
 {
     public interface IBehaviorPipelineBuilder<out TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
-        IBehaviorPipelineBuilder<TRequest, TResponse> AddExceptionActions();
-        IBehaviorPipelineBuilder<TRequest, TResponse> AddExceptionHandling();
-        IBehaviorPipelineBuilder<TRequest, TResponse> AddBehavior<TBehavior>() 
+        IBehaviorPipelineBuilder<TRequest, TResponse> AddBehavior<TBehavior>()
             where TBehavior : class, IPipelineBehavior<TRequest, TResponse>;
-        IPostProcessorPipelineBuilder<TRequest, TResponse> AddHandler<THandler>() 
+
+        IPostProcessorPipelineBuilder<TRequest, TResponse> AddHandler<THandler>()
             where THandler : class, IRequestHandler<TRequest, TResponse>;
     }
 }

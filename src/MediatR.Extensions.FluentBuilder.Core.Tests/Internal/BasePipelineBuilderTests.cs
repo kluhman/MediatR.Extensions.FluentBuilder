@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-using MediatR.Extensions.FluentBuilder.Builders;
 using MediatR.Extensions.FluentBuilder.Internal;
 using MediatR.Pipeline;
 
@@ -8,73 +9,94 @@ using Xunit;
 
 namespace MediatR.Extensions.FluentBuilder.Tests.Internal
 {
-    public class BasePipelineBuilderTests
+    public class BasePipelineBuilderTests : BasePipelineBuilder<TestRequest, TestResponse>
     {
-        [Fact]
-        public void AddExceptionHandler_ShouldThrowException_WhenProcessorHasNotBeenRegistered()
+        private readonly List<KeyValuePair<Type, Type>> _registrations;
+
+        public BasePipelineBuilderTests()
         {
-            var builder = new TestPipelineBuilder();
-            Assert.Throws<ArgumentException>(() => builder.AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>());
+            _registrations = new List<KeyValuePair<Type, Type>>();
         }
-        
+
         [Fact]
-        public void AddExceptionHandler_ShouldNotThrowException_WhenProcessorHasBeenRegistered()
+        public void RequiredProcessors_ShouldOnlyBeRegisteredOnce()
         {
-            var builder = new TestPipelineBuilder();
-            builder
-                .AddExceptionHandling()
-                .AddHandler<TestRequest.Handler>()
-                .AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
+            AddHandler<TestRequest.Handler>();
+            AddHandler<TestRequest.Handler>();
+
+            Assert_RequiredTypesAreRegistered();
         }
-        
+
         [Fact]
-        public void AddExceptionAction_ShouldThrowException_WhenProcessorHasNotBeenRegistered()
+        public void AddPreProcessor_ShouldRegisterType()
         {
-            var builder = new TestPipelineBuilder();
-            Assert.Throws<ArgumentException>(() => builder.AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>());
+            AddPreProcessor<IRequestPreProcessor<TestRequest>>();
+
+            Assert_RequiredTypesAreRegistered();
+            Assert_TypeIsRegistered<IRequestPreProcessor<TestRequest>, IRequestPreProcessor<TestRequest>>();
         }
-        
+
         [Fact]
-        public void AddExceptionAction_ShouldNotThrowException_WhenProcessorHasBeenRegistered()
+        public void AddBehavior_ShouldRegisterType()
         {
-            var builder = new TestPipelineBuilder();
-            builder
-                .AddExceptionActions()
-                .AddHandler<TestRequest.Handler>()
-                .AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>();
+            AddBehavior<IPipelineBehavior<TestRequest, TestResponse>>();
+
+            Assert_RequiredTypesAreRegistered();
+            Assert_TypeIsRegistered<IPipelineBehavior<TestRequest, TestResponse>, IPipelineBehavior<TestRequest, TestResponse>>();
         }
-        
-        private sealed class TestPipelineBuilder : BasePipelineBuilder<TestRequest, TestResponse>
+
+        [Fact]
+        public void AddHandler_ShouldRegisterType()
         {
-            public override IBehaviorPipelineBuilder<TestRequest, TestResponse> AddBehavior<TBehavior>()
-            {
-                return this;
-            }
+            AddHandler<IRequestHandler<TestRequest, TestResponse>>();
 
-            public override IPostProcessorPipelineBuilder<TestRequest, TestResponse> AddHandler<THandler>()
-            {
-                return this;
-            }
+            Assert_RequiredTypesAreRegistered();
+            Assert_TypeIsRegistered<IRequestHandler<TestRequest, TestResponse>, IRequestHandler<TestRequest, TestResponse>>();
+        }
 
-            public override IPipelineBuilder<TestRequest, TestResponse> AddPreProcessor<TProcessor>()
-            {
-                return this;
-            }
+        [Fact]
+        public void AddPostProcessor_ShouldRegisterType()
+        {
+            AddPostProcessor<IRequestPostProcessor<TestRequest, TestResponse>>();
 
-            public override IPostProcessorPipelineBuilder<TestRequest, TestResponse> AddPostProcessor<TProcessor>()
-            {
-                return this;
-            }
+            Assert_RequiredTypesAreRegistered();
+            Assert_TypeIsRegistered<IRequestPostProcessor<TestRequest, TestResponse>, IRequestPostProcessor<TestRequest, TestResponse>>();
+        }
 
-            protected override IExceptionsPipelineBuilder<TestRequest, TestResponse> AddExceptionActionInternal<TException, TAction>()
-            {
-                return this;
-            }
+        [Fact]
+        public void AddExceptionHandler_ShouldRegisterType()
+        {
+            AddExceptionHandler<Exception, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
 
-            protected override IExceptionsPipelineBuilder<TestRequest, TestResponse> AddExceptionHandlerInternal<TException, THandler>()
-            {
-                return this;
-            }
+            Assert_RequiredTypesAreRegistered();
+            Assert_TypeIsRegistered<IRequestExceptionHandler<TestRequest, TestResponse, Exception>, IRequestExceptionHandler<TestRequest, TestResponse, Exception>>();
+        }
+
+        [Fact]
+        public void AddExceptionAction_ShouldRegisterType()
+        {
+            AddExceptionAction<Exception, IRequestExceptionAction<TestRequest, Exception>>();
+
+            Assert_RequiredTypesAreRegistered();
+            Assert_TypeIsRegistered<IRequestExceptionAction<TestRequest, Exception>, IRequestExceptionAction<TestRequest, Exception>>();
+        }
+
+        private void Assert_RequiredTypesAreRegistered()
+        {
+            Assert_TypeIsRegistered<IPipelineBehavior<TestRequest, TestResponse>, RequestPreProcessorBehavior<TestRequest, TestResponse>>();
+            Assert_TypeIsRegistered<IPipelineBehavior<TestRequest, TestResponse>, RequestPostProcessorBehavior<TestRequest, TestResponse>>();
+            Assert_TypeIsRegistered<IPipelineBehavior<TestRequest, TestResponse>, RequestExceptionProcessorBehavior<TestRequest, TestResponse>>();
+            Assert_TypeIsRegistered<IPipelineBehavior<TestRequest, TestResponse>, RequestExceptionActionProcessorBehavior<TestRequest, TestResponse>>();
+        }
+
+        private void Assert_TypeIsRegistered<TInterface, TImplementation>()
+        {
+            Assert.Single(_registrations, x => x.Key == typeof(TInterface) && x.Value == typeof(TImplementation));
+        }
+
+        protected override void RegisterInternal<TInterface, TImplementation>()
+        {
+            _registrations.Add(new KeyValuePair<Type, Type>(typeof(TInterface), typeof(TImplementation)));
         }
     }
 }

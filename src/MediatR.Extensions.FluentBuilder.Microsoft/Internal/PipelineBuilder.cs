@@ -1,8 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
-using MediatR.Extensions.FluentBuilder.Builders;
-using MediatR.Pipeline;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,40 +15,9 @@ namespace MediatR.Extensions.FluentBuilder.Internal
             _services = services;
         }
 
-        public override IBehaviorPipelineBuilder<TRequest, TResponse> AddBehavior<TBehavior>()
+        protected override void RegisterInternal<TInterface, TImplementation>()
         {
-            _services.AddTransient<IPipelineBehavior<TRequest, TResponse>, TBehavior>();
-            return this;
-        }
-
-        public override IPostProcessorPipelineBuilder<TRequest, TResponse> AddHandler<THandler>()
-        {
-            _services.AddTransient<IRequestHandler<TRequest, TResponse>, THandler>();
-            return this;
-        }
-
-        public override IPipelineBuilder<TRequest, TResponse> AddPreProcessor<TProcessor>()
-        {
-            _services.AddTransient<IRequestPreProcessor<TRequest>, TProcessor>();
-            return this;
-        }
-
-        public override IPostProcessorPipelineBuilder<TRequest, TResponse> AddPostProcessor<TProcessor>()
-        {
-            _services.AddTransient<IRequestPostProcessor<TRequest, TResponse>, TProcessor>();
-            return this;
-        }
-
-        protected override IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionActionInternal<TException, TAction>()
-        {
-            _services.AddTransient<IRequestExceptionAction<TRequest, TException>, TAction>();
-            return this;
-        }
-
-        protected override IExceptionsPipelineBuilder<TRequest, TResponse> AddExceptionHandlerInternal<TException, THandler>()
-        {
-            _services.AddTransient<IRequestExceptionHandler<TRequest, TResponse, TException>, THandler>();
-            return this;
+            _services.AddTransient<TInterface, TImplementation>();
         }
     }
 }
