@@ -18,12 +18,12 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
         {
             var builder = new ContainerBuilder();
             var wrapper = new PipelineBuilderWrapper(builder);
-            
+
             wrapper.RegisterInternal<IRequestHandler<TestRequest, TestResponse>, TestRequest.Handler>();
-            
+
             Assert.True(builder.Build().ComponentRegistry.IsRegistered(new TypedService(typeof(IRequestHandler<TestRequest, TestResponse>))));
         }
-        
+
         private sealed class PipelineBuilderWrapper : PipelineBuilder<TestRequest, TestResponse>
         {
             public PipelineBuilderWrapper(ContainerBuilder builder) : base(builder)

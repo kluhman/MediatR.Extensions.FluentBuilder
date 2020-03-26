@@ -17,12 +17,12 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
         {
             var services = new ServiceCollection();
             var wrapper = new PipelineBuilderWrapper(services);
-            
+
             wrapper.RegisterInternal<IRequestHandler<TestRequest, TestResponse>, TestRequest.Handler>();
-            
+
             Assert.Single(services, x => x.ServiceType == typeof(IRequestHandler<TestRequest, TestResponse>) && x.ImplementationType == typeof(TestRequest.Handler));
         }
-        
+
         private sealed class PipelineBuilderWrapper : PipelineBuilder<TestRequest, TestResponse>
         {
             public PipelineBuilderWrapper(IServiceCollection services) : base(services)
