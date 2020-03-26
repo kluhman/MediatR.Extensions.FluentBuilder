@@ -15,7 +15,7 @@ namespace MediatR.Extensions.FluentBuilder
                 .Select(Activator.CreateInstance)
                 .Cast<T>();
         }
-        
+
         public static IEnumerable<T> GetNotificationModulesAs<T>(this Assembly assembly)
         {
             return assembly
@@ -30,7 +30,7 @@ namespace MediatR.Extensions.FluentBuilder
             var genericInterface = typeof(IRequestModule<,>);
             return ImplementsGenericInterface(typeToCheck, genericInterface);
         }
-        
+
         private static bool ImplementsNotificationModule(Type typeToCheck)
         {
             var genericInterface = typeof(INotificationModule<>);

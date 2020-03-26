@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,11 +17,11 @@ namespace MediatR.Extensions.FluentBuilder
 
             return services;
         }
-        
+
         public static IServiceCollection AddModule(this IServiceCollection services, Module module)
         {
             module.Load(services);
-            
+
             return services;
         }
 
@@ -29,7 +32,7 @@ namespace MediatR.Extensions.FluentBuilder
 
             return services;
         }
-        
+
         public static IServiceCollection AddRequestModules(this IServiceCollection services, Assembly assembly)
         {
             foreach (var module in assembly.GetRequestModulesAs<Module>())
@@ -39,7 +42,7 @@ namespace MediatR.Extensions.FluentBuilder
 
             return services;
         }
-        
+
         public static IServiceCollection AddNotificationModules(this IServiceCollection services, Assembly assembly)
         {
             foreach (var module in assembly.GetNotificationModulesAs<Module>())

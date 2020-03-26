@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Xunit;
 
@@ -15,7 +17,7 @@ namespace MediatR.Extensions.FluentBuilder.Tests
 
             Assert.IsType<TestRequest.Module>(requestModules.Single());
         }
-        
+
         [Fact]
         public void GetNotificationModules_ShouldReturnAllNotificationModulesInAssembly()
         {

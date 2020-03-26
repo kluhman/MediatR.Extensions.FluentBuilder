@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 using Autofac;
 
@@ -17,7 +20,7 @@ namespace MediatR.Extensions.FluentBuilder
                 return type => innerContext.Resolve(type);
             });
         }
-        
+
         public static void RegisterRequestModules(this ContainerBuilder builder, Assembly assembly)
         {
             foreach (var module in assembly.GetRequestModulesAs<Module>())
@@ -25,7 +28,7 @@ namespace MediatR.Extensions.FluentBuilder
                 builder.RegisterModule(module);
             }
         }
-        
+
         public static void RegisterNotificationModules(this ContainerBuilder builder, Assembly assembly)
         {
             foreach (var module in assembly.GetNotificationModulesAs<Module>())

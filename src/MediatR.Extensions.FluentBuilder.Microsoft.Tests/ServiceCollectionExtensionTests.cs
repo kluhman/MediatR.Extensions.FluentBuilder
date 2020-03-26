@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using Moq;
 
@@ -19,27 +23,27 @@ namespace MediatR.Extensions.FluentBuilder.Tests
         public void AddModule_ShouldLoadNewModule()
         {
             _services.AddModule<TestRequest.Module>();
-            
+
             Assert.NotEmpty(_services);
         }
-        
+
         [Fact]
         public void AddModule_ShouldLoadModule()
         {
             var module = new Mock<Module>();
             _services.AddModule(module.Object);
-            
+
             module.Verify(x => x.Load(_services));
         }
-        
+
         [Fact]
         public void AddRequestModules_ShouldLoadModule()
         {
             _services.AddRequestModules(typeof(ServiceCollectionExtensionTests).Assembly);
-            
+
             Assert.NotEmpty(_services);
         }
-        
+
         [Fact]
         public void AddNotificationModules_ShouldLoadModule()
         {

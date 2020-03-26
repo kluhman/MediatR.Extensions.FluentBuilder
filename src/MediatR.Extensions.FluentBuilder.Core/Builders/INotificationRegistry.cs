@@ -1,4 +1,8 @@
-﻿namespace MediatR.Extensions.FluentBuilder.Builders
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MediatR.Extensions.FluentBuilder.Builders
 {
     public interface INotificationRegistry<out TNotification> where TNotification : INotification
     {

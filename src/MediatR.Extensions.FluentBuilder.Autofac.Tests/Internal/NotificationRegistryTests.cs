@@ -1,4 +1,8 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Autofac;
 
 using MediatR.Extensions.FluentBuilder.Internal;
 
@@ -21,7 +25,7 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
         public void AddHandler_ShouldAddHandler()
         {
             _registry.AddHandler<TestNotification.Handler>();
-            
+
             Assert.True(_services.Build().IsRegistered<INotificationHandler<TestNotification>>());
         }
     }

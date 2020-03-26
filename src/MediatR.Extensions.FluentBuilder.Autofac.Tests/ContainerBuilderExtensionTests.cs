@@ -1,4 +1,8 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Autofac;
 
 using Xunit;
 
@@ -12,7 +16,7 @@ namespace MediatR.Extensions.FluentBuilder.Tests
         {
             _builder = new ContainerBuilder();
         }
-        
+
         [Fact]
         public void AddRequestModules_ShouldLoadModule()
         {
@@ -20,7 +24,7 @@ namespace MediatR.Extensions.FluentBuilder.Tests
 
             Assert.True(_builder.Build().IsRegistered<IRequestHandler<TestRequest, TestResponse>>());
         }
-        
+
         [Fact]
         public void AddNotificationModules_ShouldLoadModule()
         {

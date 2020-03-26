@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MediatR.Extensions.FluentBuilder.Builders;
@@ -14,7 +17,7 @@ namespace MediatR.Extensions.FluentBuilder.Tests
                 return Task.CompletedTask;
             }
         }
-        
+
         internal class Module : NotificationModule<TestNotification>
         {
             public override void RegisterHandlers(INotificationRegistry<TestNotification> registry)
