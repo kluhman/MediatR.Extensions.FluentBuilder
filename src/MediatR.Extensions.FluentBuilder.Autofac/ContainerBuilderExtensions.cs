@@ -13,12 +13,12 @@ namespace MediatR.Extensions.FluentBuilder
     {
         public static void RegisterMediatR(this ContainerBuilder builder)
         {
-            builder.RegisterType<Mediator>().As<IMediator>().InstancePerRequest();
+            builder.RegisterType<Mediator>().As<IMediator>().InstancePerDependency();
             builder.Register<ServiceFactory>(context =>
             {
                 var innerContext = context.Resolve<IComponentContext>();
                 return type => innerContext.Resolve(type);
-            });
+            }).InstancePerDependency();
         }
 
         public static void RegisterRequestModules(this ContainerBuilder builder, Assembly assembly)

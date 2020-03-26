@@ -17,7 +17,7 @@ namespace MediatR.Extensions.FluentBuilder.Internal
 
         protected override void RegisterInternal<TInterface, TImplementation>()
         {
-            _builder.RegisterType<TImplementation>().As<TInterface>().InstancePerRequest();
+            _builder.RegisterType<TImplementation>().As<TInterface>().InstancePerDependency();
         }
     }
 }

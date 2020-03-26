@@ -19,7 +19,7 @@ namespace MediatR.Extensions.FluentBuilder.Internal
 
         public INotificationRegistry<TNotification> AddHandler<THandler>() where THandler : class, INotificationHandler<TNotification>
         {
-            _builder.RegisterType<THandler>().As<INotificationHandler<TNotification>>().InstancePerRequest();
+            _builder.RegisterType<THandler>().As<INotificationHandler<TNotification>>().InstancePerDependency();
             return this;
         }
     }
