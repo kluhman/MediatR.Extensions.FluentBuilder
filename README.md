@@ -1,7 +1,7 @@
 # MediatR.Extensions.FluentBuilder
 
 [![Build Status](https://dev.azure.com/kluhman/MediatR.Extensions.FluentBuilder/_apis/build/status/MediatR.Extensions.FluentBuilder?branchName=master)](https://dev.azure.com/kluhman/MediatR.Extensions.FluentBuilder/_build/latest?definitionId=3&branchName=master)
-![Nuget](https://img.shields.io/nuget/v/MediatR.Extensions.FluentBuilder.Core)
+[![Nuget](https://img.shields.io/nuget/v/MediatR.Extensions.FluentBuilder.Core)](https://www.nuget.org/packages/MediatR.Extensions.FluentBuilder.Core/)
 
 ## Overview
 
@@ -20,7 +20,7 @@ This package aims to solve these problem through explicit pipeline definition an
 
 The package can be installed using the dotnet CLI or via the Package Manager. This package currently supports both the standard Microsoft dependency injection system as well as the Autofac package. If you'd like to use a different DI system, you can easily extend the same functionality by implementing the interfaces in the Core package. 
 
-.NET CLI
+**.NET CLI**
 ```
 dotnet add package MediatR.Extensions.FluentBuilder.Core
 
