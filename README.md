@@ -21,7 +21,7 @@ This package aims to solve these problem through explicit pipeline definition an
 The package can be installed using the dotnet CLI or via the Package Manager. This package currently supports both the standard Microsoft dependency injection system as well as the Autofac package. If you'd like to use a different DI system, you can easily extend the same functionality by implementing the interfaces in the Core package. 
 
 **.NET CLI**
-```
+```bash
 dotnet add package MediatR.Extensions.FluentBuilder.Core
 
 dotnet add package MediatR.Extensions.FluentBuilder.Microsoft
@@ -31,7 +31,7 @@ dotnet add package MediatR.Extensions.FluentBuilder.Autofac
 
 **Package Manager**
 
-```
+```Powershell
 Install-Package MediatR.Extensions.FluentBuilder.Core
 
 Install-Package MediatR.Extensions.FluentBuilder.Microsoft
@@ -43,7 +43,7 @@ Install-Package MediatR.Extensions.FluentBuilder.Autofac
 
 In whatever project you are housing all of your MediatR requests in, simply add the following class.
 
-```
+```c#
 public class MediatRModule : Module
 {
     public override void Load(IServiceCollection services)
@@ -62,7 +62,7 @@ This will add all of the required MediatR classes to your DI container as well a
 
 For each request, you simply create an additional `RequestModule` which defines the pipeline. This gives a great overview for a developer to come and see exactly which code is executing in which order for a specific pipeline.
 
-```
+```c#
 public class MyRequest : IRequest<MyResponse>
 {
     public class Handler : IRequestHandler<MyRequest, MyResponse>
@@ -90,7 +90,7 @@ The only thing that is required for every request module is a Handler, but all t
 
 Notifications provide a similar, but simpler mechanism since they do not support full pipelines.
 
-```
+```c#
 public class MyNotification : INotification
 {
     public class Module : NotificationModule<MyNotification>
