@@ -105,7 +105,7 @@ namespace MediatR.Extensions.FluentBuilder.Tests.Internal
             Assert_ServiceIsRegistered<IRequestExceptionAction<TestRequest, Exception>>();
         }
 
-        private void Assert_ServiceIsRegistered<T>()
+        private void Assert_ServiceIsRegistered<T>() where T : notnull
         {
             Assert.True(_services.Build().IsRegistered<T>());
         }
